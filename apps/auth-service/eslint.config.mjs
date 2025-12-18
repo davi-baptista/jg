@@ -1,35 +1,37 @@
-// @ts-check
-import eslint from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import js from '@eslint/js'
+import tseslint from 'typescript-eslint'
+import globals from 'globals'
 
-export default tseslint.config(
-  {
-    ignores: ['eslint.config.mjs'],
-  },
-  eslint.configs.recommended,
+export default [
+  // Base JS (equivalente ao node)
+  js.configs.recommended,
+
+  // TypeScript (equivalente ao Rocketseat)
   ...tseslint.configs.recommendedTypeChecked,
-  eslintPluginPrettierRecommended,
+
   {
+    files: ['**/*.ts'],
     languageOptions: {
       globals: {
-        ...globals.node,
-        ...globals.jest,
+        ...globals.node
       },
-      sourceType: 'commonjs',
       parserOptions: {
-        projectService: true,
+        project: './tsconfig.json',
         tsconfigRootDir: import.meta.dirname,
-      },
+        sourceType: 'module'
+      }
     },
+    rules: {
+      // equivalente ao seu override
+      'no-useless-constructor': 'off',
+
+      // boas práticas que a Rocketseat usa
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/consistent-type-imports': 'error'
+    }
   },
   {
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn',
-      "prettier/prettier": ["error", { endOfLine: "auto" }],
-    },
-  },
-);
+    ignores: ['dist/**', 'node_modules/**']
+  }
+]
