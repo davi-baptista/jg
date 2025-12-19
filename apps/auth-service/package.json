@@ -17,7 +17,13 @@
     "typeorm": "npx typeorm-ts-node-commonjs",
     "migration:create": "npm run typeorm -- migration:create ./src/db/migrations/$npm_config_name",
     "migration:run": "npm run typeorm migration:run -- -d ./src/db/typeorm-migrations.config.ts",
-    "migration:revert": "npm run typeorm migration:revert -- -d ./src/db/typeorm-migrations.config.ts"
+    "migration:revert": "npm run typeorm migration:revert -- -d ./src/db/typeorm-migrations.config.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage",
+    "test:debug": "vitest --inspect-brk --inspect --logHeapUsage --threads=false",
+    "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
+    "test:e2e-watch": "vitest run --config ./vitest.config.e2e.ts --watch"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -27,6 +33,7 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/typeorm": "^11.0.0",
+    "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.3",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
@@ -43,6 +50,7 @@
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
     "@rocketseat/eslint-config": "^2.2.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.7",
     "@types/passport-jwt": "^4.0.1",
@@ -58,6 +66,8 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.50.0"
+    "typescript-eslint": "^8.50.0",
+    "vite-tsconfig-paths": "^6.0.3",
+    "vitest": "^4.0.16"
   }
 }

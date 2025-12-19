@@ -22,11 +22,14 @@ export default [
       }
     },
     rules: {
-      // equivalente ao seu override
       'no-useless-constructor': 'off',
-
-      // boas práticas que a Rocketseat usa
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/require-await': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/consistent-type-imports': 'error'
     }
