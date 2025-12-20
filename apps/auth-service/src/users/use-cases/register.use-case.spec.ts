@@ -1,15 +1,15 @@
 import { inMemoryUsersRepository } from '@test/repositories/in-memory-users-repository'
-import { RegisterUserUseCase } from './register-user.use-case'
 import { compare } from 'bcryptjs'
+import { RegisterUseCase } from './register.use-case'
 
 let usersRepository: inMemoryUsersRepository
-let sut: RegisterUserUseCase
+let sut: RegisterUseCase
 
 describe('Create Question', () => {
   beforeEach(() => {
     usersRepository = new inMemoryUsersRepository()
 
-    sut = new RegisterUserUseCase(usersRepository)
+    sut = new RegisterUseCase(usersRepository)
   })
 
   it('should be able to register a user', async () => {

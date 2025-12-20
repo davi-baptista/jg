@@ -6,13 +6,13 @@ import { hash } from 'bcryptjs'
 import type { UsersRepository } from 'src/repositories/users-repository'
 
 
-interface AuthenticateUserUseCaseRequest {
+interface RegisterUseCaseRequest {
     username: string
     email: string
     password: string
 }
 
-type AuthenticateUserUseCaseResponse = Either<
+type RegisterUseCaseResponse = Either<
     UserAlreadyExistsError,
     {
         user: UserEntity
@@ -20,11 +20,11 @@ type AuthenticateUserUseCaseResponse = Either<
 >
 
 @Injectable()
-export class AuthenticateUserUseCase {
+export class RegisterUseCase {
     constructor(
         private readonly usersRepository: UsersRepository
     ) {}
-    async execute({ username, email, password}: AuthenticateUserUseCaseRequest): Promise<AuthenticateUserUseCaseResponse> {
+    async execute({ username, email, password}: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
         const userWithSameEmail = await this.usersRepository.findByEmail(email)
 
         if (userWithSameEmail) {
