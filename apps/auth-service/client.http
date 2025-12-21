@@ -1,54 +1,39 @@
 @baseUrl = http://localhost:3002
-@authToken = {{ authenticate.response.body.acess_token }}
 
-# @name create_acount
+### register
+# @name register
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-    "name": "Teste",
-    "email": "teste1@gmail.com",
-    "password": "123456"
+  "username": "Teste",
+  "email": "teste1@gmail.com",
+  "password": "123456"
 }
 
 ###
 
+### authenticate
 # @name authenticate
 POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-    "email": "teste1@gmail.com",
-    "password": "123456"
+  "email": "teste1@gmail.com",
+  "password": "123456"
 }
 
 ###
 
-# @name create_question
+@accessToken = {{ authenticate.response.body.access_token }}
+@refreshToken = {{ authenticate.response.body.refresh_token }}
+
+###
+
+### refresh
 POST {{baseUrl}}/auth/refresh
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
 
 {
-    "title": "Nova pergunta 1",
-    "content": "Conteudo"
-}
-
-###
-
-# @name fetch_recent_questions
-GET {{baseUrl}}/questions?page=1
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
-
-###
-
-# @name edit_question
-PUT {{baseUrl}}/questions/a3cf524c-9311-4c27-87c8-f4c2ff4ae2e9
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
-
-{
-    "title": "Nova pergunta 01",
-    "content": "Conteudo"
+  "refreshToken": "{{refreshToken}}"
 }

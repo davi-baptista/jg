@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import { Either, left, right } from '../../../../../packages/utils/either/either'
-import type { UsersRepository } from 'src/repositories/users-repository'
-import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
+import { UsersRepository } from 'src/repositories/users-repository'
+import { InvalidCredentialsError } from '../../../../api-gateway/src/auth/controllers/errors/invalid-credentials-error'
 import { compare } from 'bcryptjs'
 import { JwtService } from '@nestjs/jwt'
+import { Either, left, right } from '@jg/utils'
 
 
 interface AuthenticateUseCaseRequest {

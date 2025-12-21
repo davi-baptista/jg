@@ -1,7 +1,7 @@
 import { inMemoryUsersRepository } from '@test/repositories/in-memory-users-repository'
-import { AuthenticateUseCase } from './authenticate.use-case'
 import { makeUser } from '@test/factories/make-user'
-import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
+import { AuthenticateUseCase } from './authenticate.use-case'
+import { InvalidCredentialsError } from '@/auth/users/errors/invalid-credentials-error'
 
 let usersRepository: inMemoryUsersRepository
 let sut: AuthenticateUseCase

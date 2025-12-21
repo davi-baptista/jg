@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import { Either, left, right } from '../../../../../packages/utils/either/either'
 import { UserEntity } from 'src/db/entities/user.entity'
-import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
+import { UserAlreadyExistsError } from '../../../../api-gateway/src/auth/controllers/errors/user-already-exists-error'
 import { hash } from 'bcryptjs'
-import type { UsersRepository } from 'src/repositories/users-repository'
+import { UsersRepository } from 'src/repositories/users-repository'
+import { Either, left, right } from '@jg/utils'
 
 
 interface RegisterUseCaseRequest {
@@ -22,7 +22,7 @@ type RegisterUseCaseResponse = Either<
 @Injectable()
 export class RegisterUseCase {
     constructor(
-        private readonly usersRepository: UsersRepository
+        private usersRepository: UsersRepository
     ) {}
     async execute({ username, email, password}: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
         const userWithSameEmail = await this.usersRepository.findByEmail(email)

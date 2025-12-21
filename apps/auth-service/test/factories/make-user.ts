@@ -1,7 +1,6 @@
-// test/factories/make-user.ts
+import { UserEntity } from '@/db/entities/user.entity'
 import { faker } from '@faker-js/faker'
 import { hash } from 'bcryptjs'
-import { UserEntity } from '@/db/entities/user.entity'
 
 interface MakeUserProps {
   username?: string
