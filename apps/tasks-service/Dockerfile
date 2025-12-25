@@ -1,7 +1,20 @@
-FROM node:22-alpine AS development
+FROM node:22-slim AS development
+
+WORKDIR /app
+
+# Ativa pnpm
+RUN corepack enable
+
+# Copia arquivos do workspace
+COPY package.json pnpm-workspace.yaml ./
+COPY packages ./packages
+COPY apps ./apps
+
+# Instala dependências
+RUN pnpm install
+
 WORKDIR /app/apps/tasks-service
-COPY apps/tasks-service/package*.json ./
-RUN npm install
-COPY apps/tasks-service/ .
-EXPOSE 3000
-CMD ["npm", "run", "start:dev"]
+
+EXPOSE 3003
+
+CMD ["pnpm", "run", "start:dev"]

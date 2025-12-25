@@ -1,51 +1,27 @@
 import { Injectable } from '@nestjs/common'
 import { UsersRepository } from 'src/repositories/users-repository'
-import { InvalidCredentialsError } from '../../../../api-gateway/src/auth/controllers/errors/invalid-credentials-error'
 import { compare } from 'bcryptjs'
-import { JwtService } from '@nestjs/jwt'
-import { Either, left, right } from '@jg/utils'
-
-
-interface AuthenticateUseCaseRequest {
-    email: string
-    password: string
-}
-
-type AuthenticateUseCaseResponse = Either<
-    InvalidCredentialsError,
-    {
-        accessToken: string
-        refreshToken: string
-    }
->   
+import type { AuthenticatePayload } from '@jg/types/http/auth'
+import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 
 @Injectable()
 export class AuthenticateUseCase {
     constructor(
-        private readonly usersRepository: UsersRepository, private jwt: JwtService
+        private readonly usersRepository: UsersRepository
     ) {}
-    async execute({ email, password}: AuthenticateUseCaseRequest): Promise<AuthenticateUseCaseResponse> {
+    async execute({ email, password}: AuthenticatePayload) {
         const user = await this.usersRepository.findByEmail(email)
 
         if (!user) {
-            return left(new InvalidCredentialsError())
+            throw new InvalidCredentialsError()
         }
 
         const isValidPassword = await compare(password, user.passwordHash)
 
         if (!isValidPassword) {
-            return left(new InvalidCredentialsError())
+            throw new InvalidCredentialsError()
         }
 
-        const accessToken = await this.jwt.signAsync({
-            sub: user.id
-        })
-
-        const refreshToken = await this.jwt.signAsync(
-            { sub: user.id },
-            { expiresIn: '7d' },
-        )
-
-        return right({ accessToken, refreshToken })
+        return { userId: user.id }
     }
 }

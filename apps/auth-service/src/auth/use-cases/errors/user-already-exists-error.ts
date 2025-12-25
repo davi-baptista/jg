@@ -1,5 +1,10 @@
-export class UserAlreadyExistsError extends Error {
+import { RpcException } from "@nestjs/microservices";
+
+export class UserAlreadyExistsError extends RpcException {
   constructor() {
-    super('User already exists')
+    super({
+      statusCode: 409,
+      message: 'User already exists',
+    })
   }
 }

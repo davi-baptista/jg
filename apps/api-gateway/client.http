@@ -1,0 +1,90 @@
+@baseUrl = http://localhost:3001
+
+### register
+# @name register
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "Teste10",
+  "email": "teste10@gmail.com",
+  "password": "123456"
+}
+
+###
+
+### authenticate
+# @name authenticate
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "teste1@gmail.com",
+  "password": "123456"
+}
+
+###
+
+@accessToken = {{ authenticate.response.body.accessToken }}
+@refreshToken = {{ authenticate.response.body.refreshToken }}
+
+###
+
+### refresh token
+POST {{baseUrl}}/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+@taskId = {{ createTask.response.body.taskId }}
+
+### create task
+# @name createTask
+POST {{baseUrl}}/tasks
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "title": "Tarefa mínima",
+  "priority": "MEDIUM",
+  "status": "TODO",
+  "assignees": ["58359ccf-129b-4565-8bee-583ab3eda5fe"]
+}
+
+### update task
+PUT {{baseUrl}}/tasks/{{taskId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "title": "Tarefa atualizada",
+  "priority": "HIGH",
+  "status": "IN_PROGRESS"
+}
+
+### delete task
+DELETE {{baseUrl}}/tasks/{{taskId}}
+Authorization: Bearer {{accessToken}}
+
+### get task
+GET {{baseUrl}}/tasks/{{taskId}}
+Authorization: Bearer {{accessToken}}
+
+### list tasks
+GET {{baseUrl}}/tasks?page=1&size=10
+Authorization: Bearer {{accessToken}}
+
+### create comment
+POST {{baseUrl}}/tasks/{{taskId}}/comments
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "content": "Comentário de teste"
+}
+
+### list comments
+GET {{baseUrl}}/tasks/{{taskId}}/comments?page=1&size=5
+Authorization: Bearer {{accessToken}}

@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "module": "nodenext",
     "moduleResolution": "nodenext",
@@ -14,8 +15,13 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@test/*": ["test/*"],
+      "@packages/types/*": ["../../packages/types/src/*"]
+    },
     "incremental": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,

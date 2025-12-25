@@ -5,7 +5,7 @@ import { RegisterUseCase } from './register.use-case'
 let usersRepository: inMemoryUsersRepository
 let sut: RegisterUseCase
 
-describe('Create Question', () => {
+describe('Register Use Case', () => {
   beforeEach(() => {
     usersRepository = new inMemoryUsersRepository()
 
@@ -13,20 +13,20 @@ describe('Create Question', () => {
   })
 
   it('should be able to register a user', async () => {
-    const result = await sut.execute({
+    await sut.execute({
       username: 'John Doe',
       email: 'john_doe@gmail.com',
       password: '123456',
     })
 
-    expect(result.isRight()).toBe(true)
-    expect(result.value).toEqual({
-      user: usersRepository.items[0],
-    })
+    expect(usersRepository.items).toEqual([expect.objectContaining({
+      username: 'John Doe',
+      email: 'john_doe@gmail.com',
+    })])
   })
 
   it('should hash user password upon registration', async () => {
-    const result = await sut.execute({
+    await sut.execute({
       username: 'Example Name',
       email: 'example@example',
       password: '123456',
@@ -36,7 +36,6 @@ describe('Create Question', () => {
     
     const isPasswordCorrect = await compare('123456', user.passwordHash)
 
-    expect(result.isRight()).toBe(true)
     expect(isPasswordCorrect).toBe(true)
   })
 })

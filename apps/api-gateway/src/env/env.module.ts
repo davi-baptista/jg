@@ -7,7 +7,7 @@ import { envSchema } from './env';
   imports: [
     ConfigModule.forRoot({
       validate: (config) => envSchema.parse(config),
-      isGlobal: true, // Disponível em todo o módulo
+      isGlobal: true,
     }),
   ],
   providers: [EnvService],
